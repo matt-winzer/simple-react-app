@@ -4,20 +4,16 @@ import './App.css';
 import CharacterList from './components/CharacterList'
 
 class App extends Component {
-  state = {characters: null}
+  state = {characters: []}
 
-  componentWillMount() {
+  componentDidMount() {
     console.log('mounting')
     fetch('http://galvanize-cors-proxy.herokuapp.com/https://swapi.co/api/people')
       .then(response => response.json())
       .then(data => {
         this.setState({characters: data.results})
-        console.log(this.state)
+        // console.log(this.state)
       })
-  }
-
-  componentDidMount() {
-    console.log(this.state.characters)
   }
 
   render() {
