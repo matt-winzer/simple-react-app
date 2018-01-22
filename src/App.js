@@ -4,15 +4,30 @@ import './App.css';
 import CharacterList from './components/CharacterList'
 
 class App extends Component {
-  state = {characters: []}
+  state = {
+    characters: [],
+    count: 0
+  }
 
   componentDidMount() {
-    console.log('mounting')
+    this.getPeople();
+  }
+
+  deletePeople = name => {
+    let characters = this.state.characters
+    let idx = characters.findIndex(char => char.name === name)
+    characters.splice(idx, 1)
+    this.setState({characters})
+  }
+
+  getPeople = () => {
+    let count = this.state.count
+
     fetch('http://galvanize-cors-proxy.herokuapp.com/https://swapi.co/api/people')
       .then(response => response.json())
       .then(data => {
-        this.setState({characters: data.results})
-        // console.log(this.state)
+        this.setState({characters: data.results, count: ++count})
+        console.log('getPeople() results=', this.state)
       })
   }
 
@@ -26,7 +41,12 @@ class App extends Component {
         <p className="App-intro">
           Here's a list of students in Galvanize!
         </p>
-        <CharacterList characters={this.state.characters}/>
+        <CharacterList
+          deletePeople={this.deletePeople}
+          getPeople={this.getPeople}
+          characters={this.state.characters}
+          count={this.state.count}
+          />
       </div>
     );
   }
