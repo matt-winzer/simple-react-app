@@ -1,13 +1,20 @@
 import React from 'react';
 import CharacterCard from './CharacterCard'
 
-const CharacterList = (props) => {
-  const characters = props.characters
-  console.log('characters', characters)
+const CharacterList = ({characters = [], count = 0, deletePeople, getPeople}) => {
+  // const characters = props.characters
+  // const getFart = props.getPeople
+  // const count = props.count || 0
 
-  return characters.map((character, index) => {
-   return <CharacterCard key={character.name} character={character} rank={index} />
-  })
+  // console.table(characters)
+
+  return <div>
+    <button onClick={getPeople}>Refresh</button>
+    <legend>Count: {count}</legend>
+    {characters.map((character, index) => {
+      return <CharacterCard key={character.name} deletePeople={deletePeople} character={character} rank={index} />
+    })}
+  </div>
 }
 
 
